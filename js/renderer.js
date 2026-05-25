@@ -203,6 +203,7 @@ const Renderer = (() => {
       [style*="grid-template-columns:repeat(4"] {
         grid-template-columns: repeat(2,1fr) !important;
       }
+      [style*="grid-row:span 2"] { grid-row: span 1 !important; }
       nav { flex-wrap: wrap !important; }
       nav [style*="gap:24px"], nav [style*="gap:20px"] { display: none !important; }
       nav[style*="grid-template-columns"] { grid-template-columns: auto 1fr !important; }
