@@ -923,5 +923,5 @@ const App = (() => {
     init();
   }
 
-  return {};
+  return { openProjectById: openProject };
 })();
