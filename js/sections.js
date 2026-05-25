@@ -2062,6 +2062,303 @@ const Sections = (() => {
     },
   ]);
 
+  // ─── SECTION: Case studies ────────────────────────────────────────────────
+
+  register('case-studies', 'Case studies', '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="12" height="9" rx="1"/><path d="M4 7h2M4 10h6M8 7h2"/></svg>', [
+    {
+      label: 'Cards with metrics',
+      preview: '┌────┐┌────┐┌────┐\n│logo││logo││logo│\n│ +X%││ +X%││ +X%│\n└────┘└────┘└────┘',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:var(--container);margin:0 auto">
+          <div style="text-align:center;margin-bottom:48px">
+            ${BADGE('Case studies')}
+            ${HEADING('Trusted by teams that care about privacy', 32)}
+            ${SUBTEXT('See how companies replaced invasive analytics with Umbra — and got better insights.')}
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+            ${[
+              { logo:'Acme Corp', industry:'E-commerce', metric:'+34%', metricLabel:'conversion lift', quote:'We cut our analytics bundle by 80% and actually understand our funnel better now.', name:'Sara K.', role:'Head of Growth' },
+              { logo:'Novu', industry:'Developer tools', metric:'2.1×', metricLabel:'faster page load', quote:'GDPR compliance used to be a nightmare. With Umbra it\'s a checkbox we never think about.', name:'Tom R.', role:'CTO' },
+              { logo:'Flowbase', industry:'SaaS', metric:'-62%', metricLabel:'bounce rate', quote:'The funnels revealed a drop-off we\'d been missing for months. Fixed it in a day.', name:'Mia L.', role:'Product Lead' },
+            ].map(c=>`
+              <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-5);display:flex;flex-direction:column;gap:16px">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:13px;font-weight:700;color:var(--text)">${c.logo}</span>
+                  <span style="font-size:11px;color:var(--text-3);background:var(--bg-el);padding:3px 8px;border-radius:999px">${c.industry}</span>
+                </div>
+                <div style="background:var(--accent-sub);border-radius:var(--radius-sm);padding:14px 16px">
+                  <div style="font-size:28px;font-weight:800;color:var(--accent);line-height:1">${c.metric}</div>
+                  <div style="font-size:12px;color:var(--text-2);margin-top:4px">${c.metricLabel}</div>
+                </div>
+                <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0;flex:1">"${c.quote}"</p>
+                <div style="display:flex;align-items:center;gap:10px">
+                  ${AVATAR(c.name[0])}
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:var(--text)">${c.name}</div>
+                    <div style="font-size:11px;color:var(--text-3)">${c.role}</div>
+                  </div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </section>`
+    },
+    {
+      label: 'Featured + list',
+      preview: '┌──────────────┐\n│ big case     │\n└──────────────┘\n  logo · metric',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:var(--container);margin:0 auto">
+          <div style="margin-bottom:40px">
+            ${BADGE('Customers')}
+            ${HEADING('Real results, zero tracking', 32)}
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+            <div style="background:var(--accent);border-radius:var(--radius);padding:var(--sp-5);grid-row:span 2">
+              <div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Featured</div>
+              <div style="font-size:48px;font-weight:800;color:#fff;line-height:1;margin-bottom:8px">+127%</div>
+              <div style="font-size:14px;color:rgba(255,255,255,.8);margin-bottom:24px">revenue attributed to optimized funnels</div>
+              <p style="font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;margin:0 0 24px">"Umbra replaced three separate analytics tools. The privacy angle alone unlocked enterprise deals we couldn't close before."</p>
+              <div style="display:flex;align-items:center;gap:10px">
+                ${AVATAR('J', 'rgba(255,255,255,.3)')}
+                <div><div style="font-size:12px;font-weight:600;color:#fff">James Park</div><div style="font-size:11px;color:rgba(255,255,255,.7)">VP Product · Stripe</div></div>
+              </div>
+            </div>
+            ${[
+              { logo:'Linear', metric:'+44%', label:'engagement', role:'Design Lead' },
+              { logo:'Vercel', metric:'−55%', label:'bounce rate', role:'Growth Eng' },
+            ].map(c=>`
+              <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-4);display:flex;align-items:center;gap:16px">
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">${c.logo}</div>
+                  <div style="font-size:11px;color:var(--text-3)">${c.role}</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:22px;font-weight:700;color:var(--accent)">${c.metric}</div>
+                  <div style="font-size:11px;color:var(--text-3)">${c.label}</div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </section>`
+    },
+  ]);
+
+  // ─── SECTION: Author bio ──────────────────────────────────────────────────
+
+  register('author-bio', 'Author bio', '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="5" r="2.5"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>', [
+    {
+      label: 'Bio + related posts',
+      preview: '○ Author name\n  role · date\n─────────────\nRelated: post post',
+      render: () => `
+        <section style="max-width:680px;margin:0 auto;padding:48px var(--sp-5)">
+          <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-5);display:flex;gap:20px;margin-bottom:48px">
+            ${AVATAR('AL', 'var(--accent)')}
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">Alex Laurent</div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">Head of Developer Relations · Umbra</div>
+              <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0">Alex writes about privacy-first engineering, analytics patterns, and building products people trust. Previously at Plausible and Cloudflare.</p>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px">Related articles</div>
+            <div style="display:flex;flex-direction:column;gap:0">
+              ${[
+                { tag:'Privacy', title:'Why cookie banners are a UX tax — and how to avoid them', date:'May 10, 2025' },
+                { tag:'Analytics', title:'Server-side analytics: tradeoffs you need to know before switching', date:'Apr 22, 2025' },
+                { tag:'Product', title:'Building trust through data minimalism', date:'Mar 15, 2025' },
+              ].map((p,i,arr)=>`
+                <div style="padding:16px 0;${i>0?'border-top:var(--border-w) solid var(--border)':''}display:flex;align-items:center;gap:14px;justify-content:space-between">
+                  <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+                    ${PILL(p.tag)}
+                    <span style="font-size:13px;color:var(--text);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical">${p.title}</span>
+                  </div>
+                  <span style="font-size:11px;color:var(--text-3);white-space:nowrap;flex-shrink:0">${p.date}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+        </section>`
+    },
+    {
+      label: 'Minimal byline',
+      preview: '○ Name · role · date\n─────────────────\n▸ post  ▸ post',
+      render: () => `
+        <section style="max-width:680px;margin:0 auto;padding:32px var(--sp-5) 56px">
+          <div style="display:flex;align-items:center;gap:12px;padding:24px 0;border-top:var(--border-w) solid var(--border);border-bottom:var(--border-w) solid var(--border);margin-bottom:40px">
+            ${AVATAR('AL')}
+            <div>
+              <span style="font-size:13px;font-weight:600;color:var(--text)">Alex Laurent</span>
+              <span style="font-size:13px;color:var(--text-3)"> · Head of DevRel · May 10, 2025</span>
+            </div>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px">More from us</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            ${[
+              { tag:'Privacy', title:'Cookie banners are a UX tax' },
+              { tag:'Analytics', title:'Server-side analytics tradeoffs' },
+            ].map(p=>`
+              <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-4)">
+                <div style="margin-bottom:8px">${PILL(p.tag)}</div>
+                <div style="font-size:13px;font-weight:500;color:var(--text);line-height:1.4">${p.title}</div>
+              </div>`).join('')}
+          </div>
+        </section>`
+    },
+  ]);
+
+  // ─── SECTION: Values ──────────────────────────────────────────────────────
+
+  register('values', 'Values', '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5 5.5 5z"/></svg>', [
+    {
+      label: 'Icon grid',
+      preview: '★ Value   ★ Value\n  desc      desc\n★ Value   ★ Value',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:var(--container);margin:0 auto">
+          <div style="text-align:center;margin-bottom:48px">
+            ${BADGE('Our values')}
+            ${HEADING('The principles we build by', 32)}
+            ${SUBTEXT('Not a poster on the wall — decisions we make every day.')}
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+            ${[
+              { icon:'🔒', title:'Privacy first', desc:'We don\'t collect what we don\'t need. Every feature is designed with data minimalism as a constraint, not an afterthought.' },
+              { icon:'⚡', title:'Speed is a feature', desc:'A tracking script that slows down your site is a bad trade. Umbra adds under 1KB and never blocks rendering.' },
+              { icon:'🌍', title:'Open by default', desc:'Our data model is documented, our methodology is public, and our code is auditable. No black boxes.' },
+              { icon:'🤝', title:'Honest metrics', desc:'We don\'t gamify vanity numbers. We show what matters and make it easy to understand what to do next.' },
+              { icon:'⚖️', title:'Compliance as baseline', desc:'GDPR, CCPA, and PECR aren\'t checkboxes. They\'re the floor. We try to go further.' },
+              { icon:'🔧', title:'Built for developers', desc:'Good APIs, good docs, good SDKs. We\'re developers too and we hate using tools with bad DX.' },
+            ].map(v=>`
+              <div style="padding:var(--sp-4)">
+                <div style="font-size:24px;margin-bottom:12px">${v.icon}</div>
+                <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">${v.title}</div>
+                <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0">${v.desc}</p>
+              </div>`).join('')}
+          </div>
+        </section>`
+    },
+    {
+      label: 'Bordered list',
+      preview: '01 Value — desc\n──────────────\n02 Value — desc',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:720px;margin:0 auto">
+          <div style="margin-bottom:48px">
+            ${BADGE('Values')}
+            ${HEADING('What we stand for', 30)}
+          </div>
+          <div style="display:flex;flex-direction:column">
+            ${[
+              { n:'01', title:'Privacy first', desc:'Every feature is designed with data minimalism as a constraint, not an afterthought.' },
+              { n:'02', title:'Speed is a feature', desc:'Umbra adds under 1KB and never blocks rendering. A slow analytics script is a bad trade.' },
+              { n:'03', title:'Open by default', desc:'Our data model is documented, methodology is public, code is auditable. No black boxes.' },
+              { n:'04', title:'Honest metrics', desc:'We don\'t gamify vanity numbers. We show what matters and what to do next.' },
+            ].map((v,i,arr)=>`
+              <div style="display:grid;grid-template-columns:48px 1fr;gap:20px;padding:28px 0;${i>0?'border-top:var(--border-w) solid var(--border)':''}">
+                <div style="font-size:12px;font-weight:700;color:var(--text-3);padding-top:2px">${v.n}</div>
+                <div>
+                  <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px">${v.title}</div>
+                  <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin:0">${v.desc}</p>
+                </div>
+              </div>`).join('')}
+          </div>
+        </section>`
+    },
+  ]);
+
+  // ─── SECTION: Feature deep-dive ───────────────────────────────────────────
+
+  register('feature-deep-dive', 'Feature deep-dive', '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="8" height="10" rx="1"/><path d="M11 5h2M11 8h2M11 11h2"/></svg>', [
+    {
+      label: 'Screenshot + bullets',
+      preview: '┌──────┐  ■ Feature\n│ dash │  ■ Feature\n│      │  ■ Feature\n└──────┘',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:var(--container);margin:0 auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center">
+            <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);overflow:hidden">
+              <div style="background:var(--bg-el);border-bottom:var(--border-w) solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:6px">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+              </div>
+              <div style="padding:var(--sp-4)">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+                  ${DASH_CARD('Visitors','24.8k','+12%')}
+                  ${DASH_CARD('Bounce','38.2%','−4%')}
+                </div>
+                <div style="background:var(--bg-el);border-radius:var(--radius-sm);padding:12px">
+                  ${MINI_CHART()}
+                </div>
+              </div>
+            </div>
+            <div>
+              ${BADGE('Analytics')}
+              ${HEADING('Everything you need, nothing you don\'t', 28)}
+              <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+                ${[
+                  { title:'Real-time visitor map', desc:'See where your visitors come from, live. No sampling, no delays.' },
+                  { title:'Custom event funnels', desc:'Build conversion funnels with any event combination in minutes.' },
+                  { title:'Goal tracking', desc:'Set revenue or engagement goals and track progress automatically.' },
+                ].map(f=>`
+                  <div style="display:flex;gap:12px;align-items:flex-start">
+                    <div style="width:20px;height:20px;border-radius:50%;background:var(--accent-sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+                      <svg width="10" height="10" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M2 5l2 2 4-4"/></svg>
+                    </div>
+                    <div>
+                      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px">${f.title}</div>
+                      <div style="font-size:13px;color:var(--text-2);line-height:1.5">${f.desc}</div>
+                    </div>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </section>`
+    },
+    {
+      label: 'Reversed layout',
+      preview: '■ Feature  ┌──────┐\n■ Feature  │ dash │\n■ Feature  └──────┘',
+      render: () => `
+        <section style="padding:64px var(--sp-5);max-width:var(--container);margin:0 auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center">
+            <div>
+              ${BADGE('Privacy')}
+              ${HEADING('Compliant by default, not by configuration', 28)}
+              <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+                ${[
+                  { title:'No cookies required', desc:'Cookieless tracking that works without consent banners in most jurisdictions.' },
+                  { title:'GDPR & CCPA ready', desc:'Data stays in your chosen region. No personal data ever leaves the EU if you don\'t want it to.' },
+                  { title:'Audit log', desc:'Every data access is logged. Full export and deletion on request.' },
+                ].map(f=>`
+                  <div style="display:flex;gap:12px;align-items:flex-start">
+                    <div style="width:20px;height:20px;border-radius:50%;background:var(--accent-sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+                      <svg width="10" height="10" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M2 5l2 2 4-4"/></svg>
+                    </div>
+                    <div>
+                      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px">${f.title}</div>
+                      <div style="font-size:13px;color:var(--text-2);line-height:1.5">${f.desc}</div>
+                    </div>
+                  </div>`).join('')}
+              </div>
+            </div>
+            <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);overflow:hidden">
+              <div style="background:var(--bg-el);border-bottom:var(--border-w) solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:6px">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--border)"></div>
+              </div>
+              <div style="padding:var(--sp-4)">
+                ${[
+                  { label:'Data stored in', val:'EU (Frankfurt)', ok:true },
+                  { label:'Cookies set', val:'0', ok:true },
+                  { label:'PII collected', val:'None', ok:true },
+                  { label:'GDPR compliant', val:'Yes', ok:true },
+                ].map(r=>`
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:var(--border-w) solid var(--border-sub)">
+                    <span style="font-size:12px;color:var(--text-2)">${r.label}</span>
+                    <span style="font-size:12px;font-weight:600;color:${r.ok?'#3fb950':'var(--text)'}">${r.val}</span>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </section>`
+    },
+  ]);
+
   function setProjectName(name) { _projectName = name || 'Brand'; }
 
   return { get, list, setProjectName };
