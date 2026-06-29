@@ -72,7 +72,7 @@
       <p>Give your wireframe project a name to get started.</p>
       <div class="form-group">
         <label for="project-name-input">Project name</label>
-        <input type="text" id="project-name-input" placeholder="e.g. Umbra Analytics" autocomplete="off" maxlength="60">
+        <input type="text" id="project-name-input" placeholder="e.g. My SaaS" autocomplete="off" maxlength="60">
       </div>
       <div class="form-row">
         <button class="btn btn-ghost" id="btn-cancel-create">Cancel</button>
@@ -162,6 +162,15 @@
             <span class="panel-hint-inline" id="current-page-hint">— select a page</span>
           </div>
           <div id="section-list" class="section-list"></div>
+
+          <!-- Content panel — shown when a section is selected -->
+          <div id="content-panel" class="hidden" style="margin-top:12px;border-top:var(--border-w) solid var(--border);padding-top:12px">
+            <div class="panel-section-header" style="margin-bottom:8px">
+              <span class="panel-section-title">Content</span>
+            </div>
+            <div id="content-fields"></div>
+          </div>
+
           <div class="panel-section-header" style="margin-top:16px;">
             <span class="panel-section-title">Add section</span>
           </div>

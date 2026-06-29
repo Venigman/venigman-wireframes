@@ -99,6 +99,7 @@ const Storage = (() => {
       updatedAt: new Date().toISOString(),
       pages: [createPage('landing')],
       tokens: defaultTokens(),
+      texts: {},
       activePageId: null,
     };
     project.activePageId = project.pages[0].id;

@@ -8,8 +8,12 @@ const Sections = (() => {
 
   const _sections = {};
 
-  function register(id, label, icon, variants) {
-    _sections[id] = { id, label, icon, variants };
+  let _renderCtx = {};
+  function setRenderCtx(ctx) { _renderCtx = ctx || {}; }
+  function t(key, def) { return (_renderCtx[key] !== undefined && _renderCtx[key] !== '') ? _renderCtx[key] : def; }
+
+  function register(id, label, icon, variants, textFields) {
+    _sections[id] = { id, label, icon, variants, textFields: textFields || [] };
   }
 
   function get(id) { return _sections[id] || null; }
@@ -22,11 +26,11 @@ const Sections = (() => {
     <a href="#" style="color:var(--text-2);font-size:13px;text-decoration:none">Docs</a>
     <a href="#" style="color:var(--text-2);font-size:13px;text-decoration:none">Blog</a>`;
 
-  const NAV_CTA = `<button style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer">Get started</button>`;
+  const NAV_CTA = () => `<button style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer">${t('cta', 'Get started')}</button>`;
   const NAV_BURGER = `<button class="nav-burger" style="display:none;background:transparent;border:none;cursor:pointer;color:var(--text);padding:4px;align-items:center;justify-content:center"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/></svg></button>`;
 
   let _projectName = 'Brand';
-  const LOGO = () => `<span style="font-weight:700;font-size:16px;color:var(--text)">${_projectName}</span>`;
+  const LOGO = () => `<span style="font-weight:700;font-size:16px;color:var(--text)">${t('logo', _projectName)}</span>`;
 
   function BADGE(text) {
     return `<span style="display:inline-flex;align-items:center;gap:6px;background:var(--bg-el);border:var(--border-w) solid var(--border);border-radius:999px;padding:4px 12px;font-size:11px;color:var(--text-2);margin-bottom:12px">${text}</span>`;
@@ -100,7 +104,7 @@ const Sections = (() => {
           <div style="display:flex;gap:24px;align-items:center">${NAV_LINKS}</div>
           <div style="display:flex;gap:8px;align-items:center">
             <a href="#" style="color:var(--text-2);font-size:13px;text-decoration:none">Sign in</a>
-            ${NAV_CTA}
+            ${NAV_CTA()}
             ${NAV_BURGER}
           </div>
         </nav>`
@@ -114,7 +118,7 @@ const Sections = (() => {
           ${LOGO()}
           <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end">
             <a href="#" style="color:var(--text-2);font-size:13px;text-decoration:none">Sign in</a>
-            ${NAV_CTA}
+            ${NAV_CTA()}
             ${NAV_BURGER}
           </div>
         </nav>`
@@ -130,12 +134,15 @@ const Sections = (() => {
             <div style="display:flex;gap:20px;align-items:center">${NAV_LINKS}</div>
             <div style="display:flex;gap:8px;align-items:center">
               <a href="#" style="color:var(--text-2);font-size:13px;text-decoration:none">Sign in</a>
-              ${NAV_CTA}
+              ${NAV_CTA()}
               ${NAV_BURGER}
             </div>
           </nav>
         </div>`
     },
+  ], [
+    { key: 'logo', label: 'Logo name', type: 'text' },
+    { key: 'cta', label: 'CTA button', type: 'text' },
   ]);
 
   // ─── SECTION: Hero ────────────────────────────────────────────────────────
@@ -147,10 +154,10 @@ const Sections = (() => {
       render: () => `
         <section style="text-align:center;padding:72px var(--sp-5) 64px;background:var(--bg)">
           ${BADGE('Now in public beta')}
-          ${HEADING('Privacy-first analytics<br>for modern teams', 44)}
-          <p style="margin:0 auto 28px;font-size:16px;color:var(--text-2);max-width:520px;line-height:1.6">Track what matters without compromising your users. GDPR-ready, cookieless, and blazing fast.</p>
+          ${HEADING(t('heading', 'Privacy-first analytics<br>for modern teams'), 44)}
+          <p style="margin:0 auto 28px;font-size:16px;color:var(--text-2);max-width:520px;line-height:1.6">${t('subtext', 'Track what matters without compromising your users. GDPR-ready, cookieless, and blazing fast.')}</p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-            ${BTN_PRIMARY('Start free trial')}
+            ${BTN_PRIMARY(t('cta', 'Start free trial'))}
             ${BTN_GHOST('See how it works')}
           </div>
           <p style="margin:16px 0 0;font-size:12px;color:var(--text-3)">No credit card required · 14-day free trial</p>
@@ -163,10 +170,10 @@ const Sections = (() => {
         <section style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-6);align-items:center;padding:64px var(--sp-5);background:var(--bg);max-width:var(--container);margin:0 auto">
           <div>
             ${BADGE('v2.0 just shipped')}
-            ${HEADING('Know your users.<br>Respect their privacy.', 38)}
-            ${SUBTEXT('Real-time insights without cookies or personal data collection. Works everywhere, complies everywhere.')}
+            ${HEADING(t('heading', 'Know your users.<br>Respect their privacy.'), 38)}
+            ${SUBTEXT(t('subtext', 'Real-time insights without cookies or personal data collection. Works everywhere, complies everywhere.'))}
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              ${BTN_PRIMARY('Get started free')}
+              ${BTN_PRIMARY(t('cta', 'Get started free'))}
               ${BTN_GHOST('View demo')}
             </div>
           </div>
@@ -186,10 +193,10 @@ const Sections = (() => {
       render: () => `
         <section style="padding:64px var(--sp-5) 0;background:var(--bg);text-align:center;max-width:var(--container);margin:0 auto">
           ${BADGE('Trusted by 2,400+ teams')}
-          ${HEADING('Analytics that respect privacy', 42)}
-          <p style="margin:0 auto 32px;font-size:16px;color:var(--text-2);max-width:540px;line-height:1.6">Stop tracking users like criminals. Umbrave gives you everything you need, nothing you shouldn't have.</p>
+          ${HEADING(t('heading', 'Analytics that respect privacy'), 42)}
+          <p style="margin:0 auto 32px;font-size:16px;color:var(--text-2);max-width:540px;line-height:1.6">${t('subtext', 'Stop tracking users like criminals. Penis gives you everything you need, nothing you shouldn\'t have.')}</p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px">
-            ${BTN_PRIMARY('Try for free')}
+            ${BTN_PRIMARY(t('cta', 'Try for free'))}
             ${BTN_GHOST('Watch 2 min demo')}
           </div>
           <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);padding:24px;min-height:180px">
@@ -208,6 +215,10 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
+    { key: 'cta', label: 'CTA button', type: 'text' },
   ]);
 
   // ─── SECTION: Logos / trust bar ───────────────────────────────────────────
@@ -253,6 +264,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'label', label: 'Intro label', type: 'text' },
   ]);
 
   // ─── SECTION: Features grid ───────────────────────────────────────────────
@@ -274,8 +287,8 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Features')}
-            ${HEADING('Everything you need', 34)}
-            ${SUBTEXT('A full analytics suite without the privacy compromises.')}
+            ${HEADING(t('heading', 'Everything you need'), 34)}
+            ${SUBTEXT(t('subtext', 'A full analytics suite without the privacy compromises.'))}
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:var(--container);margin:0 auto">
             ${FEATURES.map(f=>`
@@ -294,7 +307,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg);max-width:var(--container);margin:0 auto">
           <div style="text-align:center;margin-bottom:48px">
             ${BADGE('Features')}
-            ${HEADING('Built different', 34)}
+            ${HEADING(t('heading', 'Built different'), 34)}
           </div>
           ${FEATURES.slice(0,4).map((f,i)=>`
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-5);align-items:center;margin-bottom:48px;direction:${i%2===1?'rtl':'ltr'}">
@@ -316,7 +329,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Features')}
-            ${HEADING('Every tool in one place', 34)}
+            ${HEADING(t('heading', 'Every tool in one place'), 34)}
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:160px;gap:12px;max-width:var(--container);margin:0 auto">
             <div style="grid-column:span 2;background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-4);display:flex;flex-direction:column;justify-content:flex-end">
@@ -338,6 +351,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Feature spotlight ───────────────────────────────────────────
@@ -418,6 +434,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: How it works ────────────────────────────────────────────────
@@ -489,6 +508,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Stats / metrics ────────────────────────────────────────────
@@ -546,13 +567,15 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'label', label: 'Label', type: 'text' },
   ]);
 
   // ─── SECTION: Testimonials ────────────────────────────────────────────────
 
   const TESTIMONIALS = [
-    { name:'Sarah K.', role:'Head of Growth, Vercel', text:'Umbrave replaced GA4 overnight. Our legal team finally stopped asking questions.' },
-    { name:'Marcus T.', role:'CTO, Linear', text:'We\'ve tried everything. Umbrave is the only tool that works behind an adblocker.' },
+    { name:'Sarah K.', role:'Head of Growth, Vercel', text:'Penis replaced GA4 overnight. Our legal team finally stopped asking questions.' },
+    { name:'Marcus T.', role:'CTO, Linear', text:'We\'ve tried everything. Penis is the only tool that works behind an adblocker.' },
     { name:'Priya N.', role:'Product Lead, Notion', text:'The dashboard is gorgeous. My team actually looks at analytics now.' },
     { name:'Tom W.', role:'Founder, Loom', text:'Setup took 5 minutes. We had data within seconds. Absolutely wild.' },
     { name:'Anna B.', role:'Engineer, Stripe', text:'Clean API, great docs, zero drama. Ship it.' },
@@ -567,7 +590,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Testimonials')}
-            ${HEADING('Loved by teams worldwide', 32)}
+            ${HEADING(t('heading', 'Loved by teams worldwide'), 32)}
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:var(--container);margin:0 auto">
             ${TESTIMONIALS.map(t=>`
@@ -628,6 +651,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Pricing ─────────────────────────────────────────────────────
@@ -661,7 +686,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Pricing')}
-            ${HEADING('Simple, transparent pricing', 32)}
+            ${HEADING(t('heading', 'Simple, transparent pricing'), 32)}
             <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
               ${PILL('Monthly',true)}${PILL('Annual — save 20%')}
             </div>
@@ -690,7 +715,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Compare plans')}
-            ${HEADING('Pick the right plan', 32)}
+            ${HEADING(t('heading', 'Pick the right plan'), 32)}
           </div>
           <div style="max-width:800px;margin:0 auto;overflow:hidden;border-radius:var(--radius);border:var(--border-w) solid var(--border)">
             <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -718,8 +743,8 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg);text-align:center">
           <div style="margin-bottom:32px">
             ${BADGE('Pricing')}
-            ${HEADING('One plan. Everything included.', 32)}
-            <p style="font-size:14px;color:var(--text-2);max-width:480px;margin:0 auto">No tiers, no feature gates, no nasty surprises. Pay once, use it all.</p>
+            ${HEADING(t('heading', 'One plan. Everything included.'), 32)}
+            <p style="font-size:14px;color:var(--text-2);max-width:480px;margin:0 auto">${t('subtext', 'No tiers, no feature gates, no nasty surprises. Pay once, use it all.')}</p>
           </div>
           <div style="max-width:440px;margin:0 auto;background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:36px">
             <div style="font-size:13px;color:var(--text-3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Pro plan</div>
@@ -732,14 +757,17 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: FAQ ─────────────────────────────────────────────────────────
 
   const FAQS = [
-    { q:'Is Umbrave really GDPR compliant?', a:'Yes. We collect no personal data, set no cookies, and store no IP addresses. No consent banner required.' },
+    { q:'Is Penis really GDPR compliant?', a:'Yes. We collect no personal data, set no cookies, and store no IP addresses. No consent banner required.' },
     { q:'How does cookieless tracking work?', a:'We use a privacy-preserving technique that assigns statistical identifiers without storing anything in the browser.' },
-    { q:'Can I use Umbrave on multiple sites?', a:'Yes. Pro and Enterprise plans support multiple sites under one account.' },
+    { q:'Can I use Penis on multiple sites?', a:'Yes. Pro and Enterprise plans support multiple sites under one account.' },
     { q:'What happens when I hit my pageview limit?', a:'We\'ll notify you. We won\'t cut off your data — just ask you to upgrade.' },
     { q:'Do you offer a free trial?', a:'Yes, 14 days free on any paid plan. No credit card required.' },
   ];
@@ -752,7 +780,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('FAQ')}
-            ${HEADING('Frequently asked questions', 32)}
+            ${HEADING(t('heading', 'Frequently asked questions'), 32)}
           </div>
           <div style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:0">
             ${FAQS.map((f,i)=>`
@@ -773,7 +801,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('FAQ')}
-            ${HEADING('Got questions?', 32)}
+            ${HEADING(t('heading', 'Got questions?'), 32)}
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:var(--container);margin:0 auto">
             ${FAQS.map(f=>`
@@ -814,6 +842,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: CTA banner ──────────────────────────────────────────────────
@@ -858,11 +888,15 @@ const Sections = (() => {
             </div>
             <div style="display:flex;gap:8px">
               <input type="email" placeholder="you@company.com" style="flex:1;padding:10px 14px;background:var(--bg-el);border:var(--border-w) solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:13px;outline:none">
-              <button style="background:var(--accent);color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap">Get started</button>
+              <button style="background:var(--accent);color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap">${t('cta', 'Get started')}</button>
             </div>
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
+    { key: 'cta', label: 'CTA button', type: 'text' },
   ]);
 
   // ─── SECTION: Footer ──────────────────────────────────────────────────────
@@ -916,7 +950,7 @@ const Sections = (() => {
           <div style="text-align:center;margin-bottom:40px">
             <h3 style="margin:0 0 10px;font-size:22px;font-weight:700;color:var(--text)">Start building today</h3>
             <p style="margin:0 0 20px;font-size:13px;color:var(--text-3)">Free tier available. No credit card required.</p>
-            ${BTN_PRIMARY('Try Umbrave free')}
+            ${BTN_PRIMARY('Try Penis free')}
           </div>
           <div style="border-top:var(--border-w) solid var(--border-sub);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:var(--container);margin:0 auto">
             <span style="font-size:11px;color:var(--text-3)">© 2025 ${_projectName}. All rights reserved.</span>
@@ -926,6 +960,8 @@ const Sections = (() => {
           </div>
         </footer>`
     },
+  ], [
+    { key: 'tagline', label: 'Tagline', type: 'text' },
   ]);
 
   // ─── SECTION: Integrations ────────────────────────────────────────────────
@@ -941,7 +977,7 @@ const Sections = (() => {
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Integrations')}
             ${HEADING('Works with your stack', 32)}
-            <p style="font-size:14px;color:var(--text-2);margin:0 auto;max-width:440px">Connect Umbrave to 40+ tools in minutes. No middleware, no fuss.</p>
+            <p style="font-size:14px;color:var(--text-2);margin:0 auto;max-width:440px">Connect Penis to 40+ tools in minutes. No middleware, no fuss.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;max-width:var(--container);margin:0 auto">
             ${INTEGRATIONS.map(n=>`
@@ -1002,26 +1038,29 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Comparison table ────────────────────────────────────────────
 
   register('comparison-table', 'Comparison table', '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v10M2 4h10M2 7h10M2 10h10"/></svg>', [
     {
-      label: 'Umbrave vs competitors',
+      label: 'Penis vs competitors',
       preview: '  Us | GA4 | Mix\n──────────────\n  ✓  | ✗  | ✗',
       render: () => `
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Compare')}
-            ${HEADING('Why teams choose Umbrave', 32)}
+            ${HEADING('Why teams choose Penis', 32)}
           </div>
           <div style="max-width:760px;margin:0 auto;border-radius:var(--radius);border:var(--border-w) solid var(--border);overflow:hidden">
             <table style="width:100%;border-collapse:collapse;font-size:13px">
               <thead>
                 <tr style="background:var(--bg-card)">
                   <th style="padding:14px 16px;text-align:left;color:var(--text-3);font-weight:400;width:40%">Feature</th>
-                  <th style="padding:14px 16px;text-align:center;color:var(--accent);font-weight:700">Umbrave</th>
+                  <th style="padding:14px 16px;text-align:center;color:var(--accent);font-weight:700">Penis</th>
                   <th style="padding:14px 16px;text-align:center;color:var(--text-3);font-weight:500">GA4</th>
                   <th style="padding:14px 16px;text-align:center;color:var(--text-3);font-weight:500">Mixpanel</th>
                 </tr>
@@ -1106,6 +1145,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Team ────────────────────────────────────────────────────────
@@ -1127,7 +1168,7 @@ const Sections = (() => {
         <section style="padding:64px var(--sp-5);background:var(--bg)">
           <div style="text-align:center;margin-bottom:40px">
             ${BADGE('Team')}
-            ${HEADING('The people behind Umbrave', 32)}
+            ${HEADING('The people behind Penis', 32)}
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:var(--container);margin:0 auto">
             ${TEAM.map(m=>`
@@ -1181,6 +1222,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Blog teaser ─────────────────────────────────────────────────
@@ -1274,6 +1317,8 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Newsletter ──────────────────────────────────────────────────
@@ -1300,7 +1345,7 @@ const Sections = (() => {
         <section style="padding:56px var(--sp-5);background:var(--bg-card);border-top:var(--border-w) solid var(--border)">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-5);align-items:center;max-width:var(--container);margin:0 auto">
             <div>
-              ${HEADING('The Umbrave newsletter', 26)}
+              ${HEADING('The Penis newsletter', 26)}
               <p style="font-size:13px;color:var(--text-2);margin:0;line-height:1.6">Privacy, analytics, and product engineering. Weekly. No fluff.</p>
             </div>
             <div style="display:flex;flex-direction:column;gap:10px">
@@ -1333,6 +1378,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Bento grid ──────────────────────────────────────────────────
@@ -1442,6 +1490,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Video ───────────────────────────────────────────────────────
@@ -1455,7 +1506,7 @@ const Sections = (() => {
           <div style="margin-bottom:32px">
             ${BADGE('See it in action')}
             ${HEADING('Watch the 2-minute demo', 32)}
-            <p style="font-size:14px;color:var(--text-2);max-width:420px;margin:0 auto">See how Umbrave works from install to first insight.</p>
+            <p style="font-size:14px;color:var(--text-2);max-width:420px;margin:0 auto">See how Penis works from install to first insight.</p>
           </div>
           <div style="max-width:760px;margin:0 auto;background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative">
             <div style="padding-top:56.25%;background:var(--bg-el);position:relative">
@@ -1522,6 +1573,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Contact ─────────────────────────────────────────────────────
@@ -1606,6 +1660,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Auth ────────────────────────────────────────────────────────
@@ -1619,7 +1676,7 @@ const Sections = (() => {
           <div style="width:100%;max-width:380px;background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-5)">
             <div style="text-align:center;margin-bottom:24px">
               ${LOGO()}
-              <h2 style="margin:12px 0 4px;font-size:20px;font-weight:600;color:var(--text)">Sign in to Umbrave</h2>
+              <h2 style="margin:12px 0 4px;font-size:20px;font-weight:600;color:var(--text)">Sign in to Penis</h2>
               <p style="margin:0;font-size:13px;color:var(--text-3)">Welcome back</p>
             </div>
             <button style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:var(--bg-el);border:var(--border-w) solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text);cursor:pointer;margin-bottom:16px">
@@ -1714,6 +1771,8 @@ const Sections = (() => {
           </div>
         </div>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
   ]);
 
   // ─── SECTION: Error page (404 / 500 etc.) ────────────────────────────────
@@ -1777,6 +1836,9 @@ const Sections = (() => {
           <p style="margin:20px 0 0;font-size:12px;color:var(--text-3)">Status: <a href="#" style="color:var(--accent);text-decoration:none">status.umbra.io</a></p>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Article body (blog post, docs) ──────────────────────────────
@@ -1799,14 +1861,14 @@ const Sections = (() => {
             ${AVATAR('JC','#8957E5')}
             <div>
               <div style="font-size:13px;font-weight:500;color:var(--text)">Jamie Chen</div>
-              <div style="font-size:11px;color:var(--text-3)">CTO at Umbrave</div>
+              <div style="font-size:11px;color:var(--text-3)">CTO at Penis</div>
             </div>
           </div>
           <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:28px;aspect-ratio:16/6;display:flex;align-items:center;justify-content:center">
             <span style="font-size:13px;color:var(--text-3)">Cover image</span>
           </div>
           ${[
-            'When we first started building Umbrave, we assumed event ingestion was a solved problem. We were wrong.',
+            'When we first started building Penis, we assumed event ingestion was a solved problem. We were wrong.',
             'The challenge wasn\'t throughput — it was latency. Our users expected their dashboards to update the moment an event occurred. That meant processing at the edge, not in a central data center.',
             'We evaluated a dozen approaches before landing on a hybrid model that combines edge workers for initial processing with a regional aggregation layer before writing to our main store.',
           ].map(p=>`<p style="font-size:15px;color:var(--text-2);line-height:1.75;margin-bottom:18px">${p}</p>`).join('')}
@@ -1863,13 +1925,13 @@ const Sections = (() => {
             <div style="display:flex;gap:6px;margin-bottom:24px;font-size:12px;color:var(--text-3)">
               <span>Docs</span><span>/</span><span>Getting started</span><span>/</span><span style="color:var(--text-2)">Introduction</span>
             </div>
-            <h1 style="font-size:28px;font-weight:700;color:var(--text);margin:0 0 16px;line-height:1.3">Introduction to Umbrave</h1>
-            <p style="font-size:15px;color:var(--text-2);margin:0 0 24px;line-height:1.7">Umbrave is a privacy-first analytics platform that gives you complete visibility into how users interact with your product — without collecting personal data or requiring consent banners.</p>
+            <h1 style="font-size:28px;font-weight:700;color:var(--text);margin:0 0 16px;line-height:1.3">Introduction to Penis</h1>
+            <p style="font-size:15px;color:var(--text-2);margin:0 0 24px;line-height:1.7">Penis is a privacy-first analytics platform that gives you complete visibility into how users interact with your product — without collecting personal data or requiring consent banners.</p>
             <div style="background:var(--accent-sub);border:var(--border-w) solid var(--accent);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:24px">
               <p style="margin:0;font-size:13px;color:var(--accent);line-height:1.6"><strong>Quick start:</strong> Add one script tag and you'll have data in under 60 seconds.</p>
             </div>
             <h2 style="font-size:18px;font-weight:600;color:var(--text);margin:0 0 12px">How it works</h2>
-            <p style="font-size:14px;color:var(--text-2);margin:0 0 16px;line-height:1.7">When a user visits your site, Umbrave's edge worker captures the event — page view, click, conversion — strips any identifiable information at the network layer, and writes an anonymised event to your dashboard in real time.</p>
+            <p style="font-size:14px;color:var(--text-2);margin:0 0 16px;line-height:1.7">When a user visits your site, Penis's edge worker captures the event — page view, click, conversion — strips any identifiable information at the network layer, and writes an anonymised event to your dashboard in real time.</p>
             <div style="display:flex;justify-content:space-between;padding-top:24px;border-top:var(--border-w) solid var(--border);margin-top:8px">
               <span style="font-size:13px;color:var(--text-3)">← Previous</span>
               <a href="#" style="font-size:13px;color:var(--accent);text-decoration:none">Quick start →</a>
@@ -1877,6 +1939,8 @@ const Sections = (() => {
           </article>
         </div>`
     },
+  ], [
+    { key: 'heading', label: 'Article title', type: 'text' },
   ]);
 
   // ─── SECTION: Legal body (privacy, terms) ─────────────────────────────────
@@ -1892,7 +1956,7 @@ const Sections = (() => {
             <p style="font-size:13px;color:var(--text-3);margin:8px 0 0">Last updated: May 12, 2025 · Effective: June 1, 2025</p>
           </div>
           <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:32px">
-            <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0">We take your privacy seriously. This policy explains what data we collect, why we collect it, and how you can control it. Umbrave is designed to be privacy-first — we collect the minimum data necessary to provide you with a great analytics experience.</p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0">We take your privacy seriously. This policy explains what data we collect, why we collect it, and how you can control it. Penis is designed to be privacy-first — we collect the minimum data necessary to provide you with a great analytics experience.</p>
           </div>
           ${[
             ['1. Information We Collect', 'We collect information you provide directly (name, email, billing details) and data about how you use our service (pages visited, features used, performance metrics). We do not collect personal data about your end-users through our analytics tracking code.'],
@@ -1928,7 +1992,7 @@ const Sections = (() => {
           <div>
             <div style="margin-bottom:32px;padding-bottom:20px;border-bottom:var(--border-w) solid var(--border)">
               <h1 style="font-size:28px;font-weight:700;color:var(--text);margin:0 0 8px">Privacy Policy</h1>
-              <p style="font-size:13px;color:var(--text-3);margin:0">Umbrave Analytics Ltd · Registered in Ireland</p>
+              <p style="font-size:13px;color:var(--text-3);margin:0">Penis Analytics Ltd · Registered in Ireland</p>
             </div>
             ${[
               ['1. Information We Collect', 'We collect information you provide directly (name, email, billing details) and data about how you use our service. We do not collect personal data about your end-users through our analytics tracking code.'],
@@ -1953,10 +2017,10 @@ const Sections = (() => {
             <span style="font-size:12px;color:var(--text-3)">v2.1 · May 2025</span>
           </div>
           ${[
-            ['Acceptance of Terms', 'By accessing or using Umbrave, you agree to be bound by these Terms. If you disagree with any part, you may not access the service.'],
-            ['Description of Service', 'Umbrave provides privacy-first web analytics for product teams. We collect anonymised event data on your behalf as a data processor under GDPR Article 28.'],
-            ['Intellectual Property', 'The service and its original content, features, and functionality are and will remain the exclusive property of Umbrave Analytics Ltd.'],
-            ['Limitation of Liability', 'In no event shall Umbrave, its directors, employees, or agents be liable for any indirect, incidental, or consequential damages arising from your use of the service.'],
+            ['Acceptance of Terms', 'By accessing or using Penis, you agree to be bound by these Terms. If you disagree with any part, you may not access the service.'],
+            ['Description of Service', 'Penis provides privacy-first web analytics for product teams. We collect anonymised event data on your behalf as a data processor under GDPR Article 28.'],
+            ['Intellectual Property', 'The service and its original content, features, and functionality are and will remain the exclusive property of Penis Analytics Ltd.'],
+            ['Limitation of Liability', 'In no event shall Penis, its directors, employees, or agents be liable for any indirect, incidental, or consequential damages arising from your use of the service.'],
           ].map(([title, text])=>`
             <div style="margin-bottom:24px">
               <h2 style="font-size:14px;font-weight:600;color:var(--text);margin:0 0 6px;text-transform:uppercase;letter-spacing:.3px">${title}</h2>
@@ -1967,6 +2031,8 @@ const Sections = (() => {
           </div>
         </div>`
     },
+  ], [
+    { key: 'heading', label: 'Document title', type: 'text' },
   ]);
 
   // ─── SECTION: Changelog list ──────────────────────────────────────────────
@@ -2060,6 +2126,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Case studies ────────────────────────────────────────────────
@@ -2073,12 +2142,12 @@ const Sections = (() => {
           <div style="text-align:center;margin-bottom:48px">
             ${BADGE('Case studies')}
             ${HEADING('Trusted by teams that care about privacy', 32)}
-            <p style="margin:0 auto 24px;font-size:15px;color:var(--text-2);line-height:1.6;max-width:480px">See how companies replaced invasive analytics with Umbrave — and got better insights.</p>
+            <p style="margin:0 auto 24px;font-size:15px;color:var(--text-2);line-height:1.6;max-width:480px">See how companies replaced invasive analytics with Penis — and got better insights.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
             ${[
               { logo:'Acme Corp', industry:'E-commerce', metric:'+34%', metricLabel:'conversion lift', quote:'We cut our analytics bundle by 80% and actually understand our funnel better now.', name:'Sara K.', role:'Head of Growth' },
-              { logo:'Novu', industry:'Developer tools', metric:'2.1×', metricLabel:'faster page load', quote:'GDPR compliance used to be a nightmare. With Umbrave it\'s a checkbox we never think about.', name:'Tom R.', role:'CTO' },
+              { logo:'Novu', industry:'Developer tools', metric:'2.1×', metricLabel:'faster page load', quote:'GDPR compliance used to be a nightmare. With Penis it\'s a checkbox we never think about.', name:'Tom R.', role:'CTO' },
               { logo:'Flowbase', industry:'SaaS', metric:'-62%', metricLabel:'bounce rate', quote:'The funnels revealed a drop-off we\'d been missing for months. Fixed it in a day.', name:'Mia L.', role:'Product Lead' },
             ].map(c=>`
               <div style="background:var(--bg-card);border:var(--border-w) solid var(--border);border-radius:var(--radius);padding:var(--sp-5);display:flex;flex-direction:column;gap:16px">
@@ -2116,7 +2185,7 @@ const Sections = (() => {
               <div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Featured</div>
               <div style="font-size:48px;font-weight:800;color:#fff;line-height:1;margin-bottom:8px">+127%</div>
               <div style="font-size:14px;color:rgba(255,255,255,.8);margin-bottom:24px">revenue attributed to optimized funnels</div>
-              <p style="font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;margin:0 0 24px">"Umbrave replaced three separate analytics tools. The privacy angle alone unlocked enterprise deals we couldn't close before."</p>
+              <p style="font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;margin:0 0 24px">"Penis replaced three separate analytics tools. The privacy angle alone unlocked enterprise deals we couldn't close before."</p>
               <div style="display:flex;align-items:center;gap:10px">
                 ${AVATAR('J', 'rgba(255,255,255,.3)')}
                 <div><div style="font-size:12px;font-weight:600;color:#fff">James Park</div><div style="font-size:11px;color:rgba(255,255,255,.7)">VP Product · Stripe</div></div>
@@ -2153,7 +2222,7 @@ const Sections = (() => {
             ${AVATAR('AL', 'var(--accent)')}
             <div style="flex:1">
               <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">Alex Laurent</div>
-              <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">Head of Developer Relations · Umbrave</div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">Head of Developer Relations · Penis</div>
               <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0">Alex writes about privacy-first engineering, analytics patterns, and building products people trust. Previously at Plausible and Cloudflare.</p>
             </div>
           </div>
@@ -2201,7 +2270,7 @@ const Sections = (() => {
           </div>
         </section>`
     },
-  ]);
+  ], []);
 
   // ─── SECTION: Values ──────────────────────────────────────────────────────
 
@@ -2219,7 +2288,7 @@ const Sections = (() => {
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
             ${[
               { icon:'🔒', title:'Privacy first', desc:'We don\'t collect what we don\'t need. Every feature is designed with data minimalism as a constraint, not an afterthought.' },
-              { icon:'⚡', title:'Speed is a feature', desc:'A tracking script that slows down your site is a bad trade. Umbrave adds under 1KB and never blocks rendering.' },
+              { icon:'⚡', title:'Speed is a feature', desc:'A tracking script that slows down your site is a bad trade. Penis adds under 1KB and never blocks rendering.' },
               { icon:'🌍', title:'Open by default', desc:'Our data model is documented, our methodology is public, and our code is auditable. No black boxes.' },
               { icon:'🤝', title:'Honest metrics', desc:'We don\'t gamify vanity numbers. We show what matters and make it easy to understand what to do next.' },
               { icon:'⚖️', title:'Compliance as baseline', desc:'GDPR, CCPA, and PECR aren\'t checkboxes. They\'re the floor. We try to go further.' },
@@ -2245,7 +2314,7 @@ const Sections = (() => {
           <div style="display:flex;flex-direction:column">
             ${[
               { n:'01', title:'Privacy first', desc:'Every feature is designed with data minimalism as a constraint, not an afterthought.' },
-              { n:'02', title:'Speed is a feature', desc:'Umbrave adds under 1KB and never blocks rendering. A slow analytics script is a bad trade.' },
+              { n:'02', title:'Speed is a feature', desc:'Penis adds under 1KB and never blocks rendering. A slow analytics script is a bad trade.' },
               { n:'03', title:'Open by default', desc:'Our data model is documented, methodology is public, code is auditable. No black boxes.' },
               { n:'04', title:'Honest metrics', desc:'We don\'t gamify vanity numbers. We show what matters and what to do next.' },
             ].map((v,i,arr)=>`
@@ -2259,6 +2328,9 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   // ─── SECTION: Feature deep-dive ───────────────────────────────────────────
@@ -2357,9 +2429,12 @@ const Sections = (() => {
           </div>
         </section>`
     },
+  ], [
+    { key: 'heading', label: 'Heading', type: 'text' },
+    { key: 'subtext', label: 'Subtext', type: 'textarea' },
   ]);
 
   function setProjectName(name) { _projectName = name || 'Brand'; }
 
-  return { get, list, setProjectName };
+  return { get, list, setProjectName, setRenderCtx };
 })();

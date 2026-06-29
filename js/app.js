@@ -70,6 +70,9 @@ const App = (() => {
           <div class="project-name">${escHtml(p.name)}</div>
           <div class="project-meta">${p.pages.length} page${p.pages.length !== 1 ? 's' : ''} · ${Storage.formatDate(p.updatedAt)}</div>
         </div>
+        <button class="btn-icon project-export-btn" data-id="${p.id}" title="Export project" style="flex-shrink:0;color:var(--text-3)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v8M4 6l3 3 3-3"/><path d="M2 11v1a1 1 0 001 1h8a1 1 0 001-1v-1"/></svg>
+        </button>
         <button class="btn-icon project-delete-btn" data-action="delete" data-id="${p.id}" title="Delete project" style="flex-shrink:0;color:var(--text-3)">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l8 8M11 3l-8 8"/></svg>
         </button>
@@ -253,6 +256,52 @@ const App = (() => {
         <span class="sec-lib-label">${sec.label}</span>
       </button>
     `).join('');
+  }
+
+  function renderContentPanel(secId) {
+    const panel = $('content-panel');
+    const fields = $('content-fields');
+    if (!panel || !fields) return;
+
+    if (!secId || !_project) {
+      panel.classList.add('hidden');
+      return;
+    }
+
+    const page = Renderer.getActivePage(_project);
+    if (!page) return;
+    const sec = page.sections.find(s => s.id === secId);
+    if (!sec) return;
+
+    const def = Sections.get(sec.sectionId);
+    if (!def || !def.textFields || def.textFields.length === 0) {
+      panel.classList.add('hidden');
+      return;
+    }
+
+    const texts = (_project.texts || {})[secId] || {};
+
+    fields.innerHTML = def.textFields.map(f => `
+      <div class="design-group" style="margin-bottom:10px">
+        <span class="design-group-label">${f.label}</span>
+        ${f.type === 'textarea'
+          ? `<textarea data-field="${f.key}" rows="2" style="width:100%;background:var(--bg-el);border:var(--border-w) solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:12px;padding:7px 9px;resize:vertical;outline:none;font-family:inherit;box-sizing:border-box">${escHtml(texts[f.key] || '')}</textarea>`
+          : `<input type="text" data-field="${f.key}" value="${escHtml(texts[f.key] || '')}" placeholder="${escHtml(f.default || '')}" style="width:100%;background:var(--bg-el);border:var(--border-w) solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:12px;padding:7px 9px;outline:none;box-sizing:border-box">`
+        }
+      </div>
+    `).join('');
+
+    fields.querySelectorAll('[data-field]').forEach(el => {
+      el.addEventListener('input', () => {
+        if (!_project.texts) _project.texts = {};
+        if (!_project.texts[secId]) _project.texts[secId] = {};
+        _project.texts[secId][el.dataset.field] = el.value;
+        renderPreview();
+        scheduleSave();
+      });
+    });
+
+    panel.classList.remove('hidden');
   }
 
   function addSection(sectionId) {
@@ -709,6 +758,19 @@ const App = (() => {
     const projectList = $('project-list');
     if (projectList) {
       projectList.addEventListener('click', e => {
+        const exportBtn = e.target.closest('.project-export-btn');
+        if (exportBtn) {
+          e.stopPropagation();
+          const proj = Storage.getProject(exportBtn.dataset.id);
+          if (!proj) return;
+          const blob = new Blob([JSON.stringify(proj, null, 2)], { type: 'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = proj.name.replace(/\s+/g, '-').toLowerCase() + '.json';
+          a.click();
+          URL.revokeObjectURL(a.href);
+          return;
+        }
         const delBtn = e.target.closest('.project-delete-btn');
         if (delBtn) {
           e.stopPropagation();
@@ -852,6 +914,7 @@ const App = (() => {
           secList.querySelectorAll('.section-item').forEach(el =>
             el.classList.toggle('selected', el.dataset.secId === _selectedSecId)
           );
+          renderContentPanel(_selectedSecId);
         }
       });
     }

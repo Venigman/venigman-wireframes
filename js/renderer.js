@@ -103,7 +103,10 @@ const Renderer = (() => {
       const variantIdx = Math.min(sec.variantIndex || 0, sectionDef.variants.length - 1);
       const variant = sectionDef.variants[variantIdx];
       try {
-        return variant.render();
+        Sections.setRenderCtx((project.texts || {})[sec.id] || {});
+        const html = variant.render();
+        Sections.setRenderCtx({});
+        return html;
       } catch(e) {
         return `<div style="padding:16px;color:#f85149;font-size:12px">Error rendering ${sec.sectionId}: ${e.message}</div>`;
       }
