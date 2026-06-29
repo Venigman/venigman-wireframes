@@ -103,7 +103,7 @@ const Renderer = (() => {
       const variantIdx = Math.min(sec.variantIndex || 0, sectionDef.variants.length - 1);
       const variant = sectionDef.variants[variantIdx];
       try {
-        Sections.setRenderCtx((project.texts || {})[sec.id] || {});
+        Sections.setRenderCtx((project.texts || {})[sec.id] || (project.texts || {})[sec.sectionId] || {});
         const html = variant.render();
         Sections.setRenderCtx({});
         return html;

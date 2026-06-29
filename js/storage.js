@@ -177,6 +177,7 @@ const Storage = (() => {
       updatedAt: new Date().toISOString(),
       pages,
       tokens,
+      texts: data.texts || {},
       activePageId: pages[0].id,
     };
 
